@@ -26,14 +26,14 @@ class MainBody extends React.Component {
       console.log(imgWH);
       console.log(imgWH.width);
       console.log(imgWH.height);
-      let w = parseInt(imgWH.width);
-      let h = parseInt(imgWH.height);
+      const w = parseInt(imgWH.width, 10);
+      const h = parseInt(imgWH.height, 10);
       if (w > h && w > 350) {
         console.log('width > 350px');
-        $('#originalImg').css({ 'width':  '350px' });
+        $('#originalImg').css({ 'width': '350px' });
       } else if (w < h && h > 350) {
         console.log('height > 350px');
-        $('#originalImg').css({ 'height':  '350px' });
+        $('#originalImg').css({ 'height': '350px' });
       }
     });
   }
@@ -47,27 +47,45 @@ class MainBody extends React.Component {
   render() {
     const { files } = this.state;
     const imgStyles = {
-      //height: '300px',
+      // height: '300px',
+    };
+    const containerStyles = {
+      height: '100%',
+      width: '800px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
     };
     const dropzoneStyles = {
       height: '350px',
       width: '350px',
       border: '1px dashed',
-      margin: '20px'
+      margin: '20px',
+      display: 'inline-block',
+      verticalAlign: 'top',
+    };
+    const resultzoneStyles = {
+      height: '350px',
+      width: '350px',
+      border: '1px dashed',
+      margin: '20px',
+      display: 'inline-block'
     };
     console.log('render!', files);
     console.log('length', files.length);
 
     return (
-      <div style={{ height: '100%' }} >
+      <div style={containerStyles} >
         <Dropzone multiple={false} style={dropzoneStyles} onDrop={this.onDrop.bind(this)}>
           {files.length > 0 ?
             <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
-              <img id='originalImg' key={files[0].size}
-                    src={files[0].preview} style={imgStyles} />
+              <img id="originalImg" key={files[0].size}
+                src={files[0].preview} style={imgStyles}
+              />
             </div> : <div>Try dropping some files here, or click to select files to upload.</div>
           }
         </Dropzone>
+        <div style={resultzoneStyles} >
+        </div>
       </div>
     );
   }
