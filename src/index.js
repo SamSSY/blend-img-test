@@ -1,6 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
 import Dropzone from 'react-dropzone';
+import Colors from 'material-ui/lib/styles/colors';
+import AppBar from 'material-ui/lib/app-bar';
+import FlatButton from 'material-ui/lib/flat-button';
 import './main.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -53,6 +56,7 @@ class MainBody extends React.Component {
     const containerStyles = {
       height: '100%',
       width: '800px',
+      paddingTop: '80px',
       marginLeft: 'auto',
       marginRight: 'auto',
     };
@@ -75,16 +79,21 @@ class MainBody extends React.Component {
     console.log('length', files.length);
 
     return (
-      <div style={containerStyles} >
-        <Dropzone multiple={false} style={dropzoneStyles} onDrop={this.onDrop.bind(this)}>
-          {files.length > 0 ?
-            <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
-              <img id="originalImg" src={files[0].preview} style={imgStyles} />
-            </div> : <div>Try dropping some files here, or click to select files to upload.</div>
-          }
-        </Dropzone>
-        <div style={resultzoneStyles} >
-          <img id="resultImg" src={"../asset/background.png"} style={imgStyles} />
+      <div>
+        <AppBar title="就博大頭貼產生器" iconClassNameLeft="fa fa-windows fa-2x"
+          style={{ position: 'fixed' }}
+        />
+        <div style={containerStyles} >
+          <Dropzone multiple={false} style={dropzoneStyles} onDrop={this.onDrop.bind(this)}>
+            {files.length > 0 ?
+              <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
+                <img id="originalImg" src={files[0].preview} style={imgStyles} />
+              </div> : <div>Try dropping some files here, or click to select files to upload.</div>
+            }
+          </Dropzone>
+          <div style={resultzoneStyles} >
+            <img id="resultImg" src={"../asset/background.png"} style={imgStyles} />
+          </div>
         </div>
       </div>
     );
