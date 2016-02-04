@@ -47,7 +47,8 @@ class MainBody extends React.Component {
   render() {
     const { files } = this.state;
     const imgStyles = {
-      // height: '300px',
+      height: '350px',
+      width: '350px'
     };
     const containerStyles = {
       height: '100%',
@@ -78,13 +79,12 @@ class MainBody extends React.Component {
         <Dropzone multiple={false} style={dropzoneStyles} onDrop={this.onDrop.bind(this)}>
           {files.length > 0 ?
             <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
-              <img id="originalImg" key={files[0].size}
-                src={files[0].preview} style={imgStyles}
-              />
+              <img id="originalImg" src={files[0].preview} style={imgStyles} />
             </div> : <div>Try dropping some files here, or click to select files to upload.</div>
           }
         </Dropzone>
         <div style={resultzoneStyles} >
+          <img id="resultImg" src={"../asset/background.png"} style={imgStyles} />
         </div>
       </div>
     );
