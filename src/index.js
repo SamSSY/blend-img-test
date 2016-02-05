@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import Colors from 'material-ui/lib/styles/colors';
 import AppBar from 'material-ui/lib/app-bar';
 import FlatButton from 'material-ui/lib/flat-button';
+import Cropper from 'cropperjs';
 import './main.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
