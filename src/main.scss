@@ -6,5 +6,17 @@ html, body{
 
 #root{
 	height:100%;
-	display: block;
+	
+	.footer{
+	    bottom: 0;
+	    display: block;
+	    margin-left: auto;
+	    margin-right: auto;
+	    text-align: center;
+	    width: 400px;
+	    height: 30px;
+	    line-height: 30px;
+	    left: 0;
+	    right: 0;
+	}
 }

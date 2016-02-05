@@ -38,6 +38,8 @@ class MainBody extends React.Component {
         console.log('height > 350px');
         $('#originalImg').css({ 'height': '350px' });
       }
+
+
     });
   }
 
@@ -52,6 +54,12 @@ class MainBody extends React.Component {
     const imgStyles = {
       height: '350px',
       width: '350px'
+    };
+    const textStyles = {
+      paddingTop: '40%',
+      paddingLeft: '10px',
+      paddingRight: '10px',
+      fontSize: '30px'
     };
     const containerStyles = {
       height: '100%',
@@ -79,21 +87,27 @@ class MainBody extends React.Component {
     console.log('length', files.length);
 
     return (
-      <div>
-        <AppBar title="就博大頭貼產生器" iconClassNameLeft="fa fa-windows fa-2x"
+      <div style={{ height: '85%' }}>
+        <AppBar title="就博大頭貼產生器" iconClassNameLeft="fa fa-crop fa-2x"
           style={{ position: 'fixed' }}
         />
         <div style={containerStyles} >
           <Dropzone multiple={false} style={dropzoneStyles} onDrop={this.onDrop.bind(this)}>
             {files.length > 0 ?
               <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
-                <img id="originalImg" src={files[0].preview} style={imgStyles} />
-              </div> : <div>Try dropping some files here, or click to select files to upload.</div>
+                <img id="originalImg" src={files[0].preview} />
+              </div> :
+              <div style={ textStyles } >
+                Try dropping a photo here, or click to select files to upload.
+              </div>
             }
           </Dropzone>
           <div style={resultzoneStyles} >
             <img id="resultImg" src={"../asset/background.png"} style={imgStyles} />
           </div>
+        </div>
+        <div className="footer">
+          <small>&copy; Shang-Yu, Su </small>
         </div>
       </div>
     );
