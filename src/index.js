@@ -4,8 +4,9 @@ import Dropzone from 'react-dropzone';
 import Colors from 'material-ui/lib/styles/colors';
 import AppBar from 'material-ui/lib/app-bar';
 import RaisedButton from 'material-ui/lib/raised-button';
+import FlatButton from 'material-ui/lib/flat-button';
 import FontIcon from 'material-ui/lib/font-icon';
-import Cropper from 'cropper';
+import TextField from 'material-ui/lib/text-field';
 import './main.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -57,6 +58,10 @@ class MainBody extends React.Component {
     });
   }
 
+  handleImgUpload(){
+    console.log('img uploaded!');
+  }
+
   render() {
     const { files } = this.state;
     const imgStyles = {
@@ -64,10 +69,10 @@ class MainBody extends React.Component {
       width: '350px'
     };
     const textStyles = {
-      paddingTop: '40%',
+      paddingTop: '45%',
       paddingLeft: '10px',
       paddingRight: '10px',
-      fontSize: '30px'
+      fontSize: '28px'
     };
     const containerStyles = {
       height: '100%',
@@ -96,6 +101,17 @@ class MainBody extends React.Component {
       margin: '9px',
       fontSize: '30px'
     };
+
+    const imgInputStyles = {
+      cursor: 'pointer',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      left: 0,
+      width: '100%',
+      opacity: 0,
+    };
     console.log('render!', files);
     console.log('length', files.length);
 
@@ -110,22 +126,32 @@ class MainBody extends React.Component {
           style={{ position: 'fixed' }}
         />
         <div style={containerStyles} >
-          <Dropzone multiple={false} style={dropzoneStyles} onDrop={this.onDrop.bind(this)}>
+          <div style={dropzoneStyles} >
             {files.length > 0 ?
               <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
                 <img id="originalImg" src={files[0].preview} />
               </div> :
               <div style={ textStyles } >
-                Try dropping a photo here, or click to select files to upload.
+                Please upload a photo.
               </div>
             }
-          </Dropzone>
+          </div>
           <div style={resultzoneStyles} >
             <img id="resultImg" src={"../asset/background.png"} style={imgStyles} />
           </div>
+          <RaisedButton label="Choose an Image"
+            style={{ marginLeft: '20px' }}
+            icon={
+              <FontIcon className="material-icons" >
+                file_upload
+              </FontIcon>
+            }
+          >
+            <input type="file" style={imgInputStyles} onChange={this.handleImgUpload} />
+          </RaisedButton>
           <div className="buttonContainer" >
             <RaisedButton
-              label="合成"
+              label="Synthesize"
               secondary={true}
               icon={
                 <FontIcon className="material-icons" >
@@ -134,7 +160,7 @@ class MainBody extends React.Component {
               }
             />
             <RaisedButton
-              label="下載"
+              label="Download"
               secondary={true}
               icon={
                 <FontIcon className="material-icons" >
