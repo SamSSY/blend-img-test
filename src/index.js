@@ -3,8 +3,9 @@ import { render } from 'react-dom';
 import Dropzone from 'react-dropzone';
 import Colors from 'material-ui/lib/styles/colors';
 import AppBar from 'material-ui/lib/app-bar';
-import FlatButton from 'material-ui/lib/flat-button';
-import Cropper from 'cropperjs';
+import RaisedButton from 'material-ui/lib/raised-button';
+import FontIcon from 'material-ui/lib/font-icon';
+import Cropper from 'cropper';
 import './main.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -39,8 +40,14 @@ class MainBody extends React.Component {
         console.log('height > 350px');
         $('#originalImg').css({ 'height': '350px' });
       }
-
-
+      $('#originalImg').cropper({
+        autoCropArea: 0.65,
+        restore: false,
+        guides: false,
+        highlight: false,
+        cropBoxMovable: false,
+        cropBoxResizable: false
+      });
     });
   }
 
@@ -84,12 +91,22 @@ class MainBody extends React.Component {
       margin: '20px',
       display: 'inline-block'
     };
+    const iconStyles = {
+      color: '#ffffff',
+      margin: '9px',
+      fontSize: '30px'
+    };
     console.log('render!', files);
     console.log('length', files.length);
 
     return (
       <div style={{ height: '85%' }}>
-        <AppBar title="就博大頭貼產生器" iconClassNameLeft="fa fa-crop fa-2x"
+        <AppBar title="就博大頭貼產生器"
+          iconElementLeft={
+            <FontIcon className="material-icons" style={iconStyles} >
+              portrait
+            </FontIcon>
+          }
           style={{ position: 'fixed' }}
         />
         <div style={containerStyles} >
@@ -105,6 +122,26 @@ class MainBody extends React.Component {
           </Dropzone>
           <div style={resultzoneStyles} >
             <img id="resultImg" src={"../asset/background.png"} style={imgStyles} />
+          </div>
+          <div className="buttonContainer" >
+            <RaisedButton
+              label="合成"
+              secondary={true}
+              icon={
+                <FontIcon className="material-icons" >
+                  transform
+                </FontIcon>
+              }
+            />
+            <RaisedButton
+              label="下載"
+              secondary={true}
+              icon={
+                <FontIcon className="material-icons" >
+                  file_download
+                </FontIcon>
+              }
+            />
           </div>
         </div>
         <div className="footer">
