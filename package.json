@@ -29,7 +29,6 @@
     "react-addons-transition-group": "^0.14.0",
     "react-addons-update": "^0.14.0",
     "react-dom": "^0.14.0",
-    "react-dropzone": "^3.3.2",
     "react-tap-event-plugin": "^0.2.1"
   },
   "devDependencies": {

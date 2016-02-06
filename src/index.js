@@ -1,18 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Dropzone from 'react-dropzone';
 import Colors from 'material-ui/lib/styles/colors';
 import AppBar from 'material-ui/lib/app-bar';
 import RaisedButton from 'material-ui/lib/raised-button';
-import FlatButton from 'material-ui/lib/flat-button';
 import FontIcon from 'material-ui/lib/font-icon';
-import TextField from 'material-ui/lib/text-field';
 import './main.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 const initialState = {
-  files: []
+  file: null,
+  originalImgDataUrl: ''
 };
 
 class MainBody extends React.Component {
@@ -52,18 +50,26 @@ class MainBody extends React.Component {
     });
   }
 
-  onDrop(files) {
-    this.setState({
-      files: files
-    });
-  }
-
-  handleImgUpload(){
+  handleImgUpload() {
     console.log('img uploaded!');
+    const file = $('input[type=file]')[0].files[0];
+    const reader = new FileReader();
+    console.log('!!!!!');
+    console.log($('input[type=file]'));
+    console.log($('input[type=file]')[0]);
+    console.log($('input[type=file]')[0].files[0]);
+    reader.addEventListener('load', () => {
+      console.log('reader loaded');
+      //console.log(reader.result);
+      this.setState({ originalImgDataUrl: reader.result, file: file });
+    }, false);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
 
   render() {
-    const { files } = this.state;
+    const { file } = this.state;
     const imgStyles = {
       height: '350px',
       width: '350px'
@@ -112,8 +118,7 @@ class MainBody extends React.Component {
       width: '100%',
       opacity: 0,
     };
-    console.log('render!', files);
-    console.log('length', files.length);
+    console.log('render!', file);
 
     return (
       <div style={{ height: '85%' }}>
@@ -127,9 +132,9 @@ class MainBody extends React.Component {
         />
         <div style={containerStyles} >
           <div style={dropzoneStyles} >
-            {files.length > 0 ?
+            {file?
               <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
-                <img id="originalImg" src={files[0].preview} />
+                <img id="originalImg" src={this.state.originalImgDataUrl} />
               </div> :
               <div style={ textStyles } >
                 Please upload a photo.
@@ -147,7 +152,7 @@ class MainBody extends React.Component {
               </FontIcon>
             }
           >
-            <input type="file" style={imgInputStyles} onChange={this.handleImgUpload} />
+            <input type="file" style={imgInputStyles} onChange={this.handleImgUpload.bind(this)} />
           </RaisedButton>
           <div className="buttonContainer" >
             <RaisedButton
