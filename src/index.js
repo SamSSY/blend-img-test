@@ -10,11 +10,13 @@ injectTapEventPlugin();
 
 const initialState = {
   file: null,
-  originalImgDataUrl: ''
+  originalImgDataUrl: '',
+  resultImgDataUrl: '',
+  isImgComplete: false
 };
 const imgStyles = {
   height: '350px',
-  width: '350px'
+  width: '350px',
 };
 const textStyles = {
   paddingTop: '45%',
@@ -86,6 +88,7 @@ class MainBody extends React.Component {
         console.log('height > 350px');
         $('#originalImg').css({ 'height': '350px' });
       }
+      /*
       $('#originalImg').cropper({
         autoCropArea: 0.65,
         restore: false,
@@ -94,6 +97,7 @@ class MainBody extends React.Component {
         cropBoxMovable: false,
         cropBoxResizable: false
       });
+      */
     });
   }
 
@@ -108,8 +112,28 @@ class MainBody extends React.Component {
     }
   }
 
+  synthesizeImg() {
+    console.log('sybthesize!');
+    const canvas = document.getElementById('resultImg');
+    const context = canvas.getContext('2d');
+    context.globalCompositeOperation = 'source-over';
+    const image = new Image();
+    image.src = $('#originalImg').prop('src');
+    image.onload = () => {
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      const backgroundImg = new Image();
+      backgroundImg.src = $('#backgroundImg').prop('src');
+      backgroundImg.onload = () => {
+        context.globalCompositeOperation = 'source-over';
+        context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+        this.setState({ isImgComplete: true });
+        $('#backgroundImg').hide();
+      };
+    };
+  }
+
   render() {
-    const { file } = this.state;
+    const { file, originalImgDataUrl, isImgComplete } = this.state;
     console.log('render!', file);
 
     return (
@@ -124,9 +148,9 @@ class MainBody extends React.Component {
         />
         <div style={containerStyles} >
           <div style={dropzoneStyles} >
-            {file?
+            {file ?
               <div style={{ overflowX: 'hidden', overflowY: 'hidden' }} >
-                <img id="originalImg" src={this.state.originalImgDataUrl} />
+                <img id="originalImg" src={originalImgDataUrl} />
               </div> :
               <div style={ textStyles } >
                 Please upload a photo.
@@ -134,7 +158,13 @@ class MainBody extends React.Component {
             }
           </div>
           <div style={resultzoneStyles} >
-            <img id="resultImg" src={"../asset/background.png"} style={imgStyles} />
+            <canvas id="resultImg" style={{ display: isImgComplete ? 'inline' : 'none' }}
+              width="350" height="350"
+            >
+            </canvas>
+            <img id="backgroundImg" 
+              src={"../asset/background.png"} style={imgStyles}
+            />
           </div>
           <RaisedButton label="Choose an Image"
             style={{ marginLeft: '20px' }}
@@ -150,6 +180,7 @@ class MainBody extends React.Component {
             label="Synthesize"
             secondary={true}
             style={{ marginLeft: '20px' }}
+            onMouseDown={this.synthesizeImg.bind(this)}
             icon={
               <FontIcon className="material-icons" >
                 transform
