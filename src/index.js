@@ -132,6 +132,14 @@ class MainBody extends React.Component {
     };
   }
 
+  downloadCanvas() {
+    console.log('download canvas.');
+    const link = document.createElement('a');
+    link.download = 'avatar.png';
+    link.href = document.getElementById('resultImg').toDataURL();
+    link.click();
+  }
+
   render() {
     const { file, originalImgDataUrl, isImgComplete } = this.state;
     console.log('render!', file);
@@ -162,7 +170,7 @@ class MainBody extends React.Component {
               width="350" height="350"
             >
             </canvas>
-            <img id="backgroundImg" 
+            <img id="backgroundImg"
               src={"../asset/background.png"} style={imgStyles}
             />
           </div>
@@ -191,6 +199,7 @@ class MainBody extends React.Component {
             label="Download"
             secondary={true}
             style={{ float: 'right', marginRight: '40px' }}
+            onMouseDown={this.downloadCanvas.bind(this)}
             icon={
               <FontIcon className="material-icons" >
                 file_download
