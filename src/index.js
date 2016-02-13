@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Colors from 'material-ui/lib/styles/colors';
 import AppBar from 'material-ui/lib/app-bar';
 import RaisedButton from 'material-ui/lib/raised-button';
 import FontIcon from 'material-ui/lib/font-icon';
@@ -69,24 +68,14 @@ class MainBody extends React.Component {
     this.state = initialState;
   }
 
-  componentDidMount() {
-  }
-
   componentDidUpdate() {
-    console.log('componentDidUpdate');
     $('img').on('load', () => {
-      console.log('img uploaded.');
       const imgWH = $('#originalImg').css(['width', 'height']);
-      console.log(imgWH);
-      console.log(imgWH.width);
-      console.log(imgWH.height);
       const w = parseInt(imgWH.width, 10);
       const h = parseInt(imgWH.height, 10);
       if (w > h && w > 350) {
-        console.log('width > 350px');
         $('#originalImg').css({ 'width': '350px' });
       } else if (w <= h && h > 350) {
-        console.log('height > 350px');
         $('#originalImg').css({ 'height': '350px' });
       }
       $('#originalImg').cropper({
@@ -109,7 +98,6 @@ class MainBody extends React.Component {
   }
 
   handleImgUpload() {
-    console.log('handleImgUpload called.');
     let file = $('input[type=file]')[0].files[0];
     let reader = new FileReader();
     reader.addEventListener('load', () => {
@@ -122,27 +110,27 @@ class MainBody extends React.Component {
   }
 
   synthesizeImg() {
-    console.log('sybthesize!');
-    const canvas = document.getElementById('resultImg');
-    const context = canvas.getContext('2d');
-    context.globalCompositeOperation = 'source-over';
-    const image = new Image();
-    image.src = $('#originalImg').cropper('getCroppedCanvas').toDataURL();
-    image.onload = () => {
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const backgroundImg = new Image();
-      backgroundImg.src = $('#backgroundImg').prop('src');
-      backgroundImg.onload = () => {
-        context.globalCompositeOperation = 'source-over';
-        context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-        this.setState({ isImgComplete: true });
-        $('#backgroundImg').hide();
+    if (this.state.file) {
+      const canvas = document.getElementById('resultImg');
+      const context = canvas.getContext('2d');
+      context.globalCompositeOperation = 'source-over';
+      const image = new Image();
+      image.src = $('#originalImg').cropper('getCroppedCanvas').toDataURL();
+      image.onload = () => {
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const backgroundImg = new Image();
+        backgroundImg.src = $('#backgroundImg').prop('src');
+        backgroundImg.onload = () => {
+          context.globalCompositeOperation = 'source-over';
+          context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+          this.setState({ isImgComplete: true });
+          $('#backgroundImg').hide();
+        };
       };
-    };
+    }
   }
 
   downloadCanvas() {
-    console.log('download canvas.');
     const link = document.createElement('a');
     link.download = 'profile.png';
     link.href = document.getElementById('resultImg').toDataURL();
@@ -151,8 +139,6 @@ class MainBody extends React.Component {
 
   render() {
     const { file, originalImgDataUrl, isImgComplete } = this.state;
-    console.log('render!', file);
-
     return (
       <div style={{ height: '85%' }}>
         <AppBar title="就博大頭貼產生器"
