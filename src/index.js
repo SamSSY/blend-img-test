@@ -171,7 +171,7 @@ class MainBody extends React.Component {
             >
             </canvas>
             <img id="backgroundImg"
-              src={"../asset/background.png"} style={imgStyles}
+              src={"asset/background.png"} style={imgStyles}
             />
           </div>
           <RaisedButton label="Choose an Image"
