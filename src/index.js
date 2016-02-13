@@ -88,16 +88,16 @@ class MainBody extends React.Component {
         console.log('height > 350px');
         $('#originalImg').css({ 'height': '350px' });
       }
-      /*
       $('#originalImg').cropper({
+        viewMode: 1,
+        dragMode: 'move',
         autoCropArea: 0.65,
         restore: false,
-        guides: true,
-        highlight: true,
+        guides: false,
+        highlight: false,
         cropBoxMovable: false,
         cropBoxResizable: false
       });
-      */
     });
   }
 
