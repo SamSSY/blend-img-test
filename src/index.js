@@ -135,7 +135,7 @@ class MainBody extends React.Component {
   downloadCanvas() {
     console.log('download canvas.');
     const link = document.createElement('a');
-    link.download = 'avatar.png';
+    link.download = 'profile.png';
     link.href = document.getElementById('resultImg').toDataURL();
     link.click();
   }
