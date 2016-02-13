@@ -73,6 +73,7 @@ class MainBody extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log('componentDidUpdate');
     $('img').on('load', () => {
       console.log('img uploaded.');
       const imgWH = $('#originalImg').css(['width', 'height']);
@@ -84,27 +85,35 @@ class MainBody extends React.Component {
       if (w > h && w > 350) {
         console.log('width > 350px');
         $('#originalImg').css({ 'width': '350px' });
-      } else if (w < h && h > 350) {
+      } else if (w <= h && h > 350) {
         console.log('height > 350px');
         $('#originalImg').css({ 'height': '350px' });
       }
       $('#originalImg').cropper({
         viewMode: 1,
         dragMode: 'move',
-        autoCropArea: 0.65,
+        aspectRatio: 1,
         restore: false,
         guides: false,
         highlight: false,
         cropBoxMovable: false,
-        cropBoxResizable: false
+        cropBoxResizable: false,
+        minCropBoxWidth: 300,
+        minCropBoxHeight: 300,
+        minContainerWidth: 350,
+        minContainerHeight: 350,
+        minCanvasHeight: 300,
+        minCanvasWidth: 300,
       });
     });
   }
 
   handleImgUpload() {
+    console.log('handleImgUpload called.');
     const file = $('input[type=file]')[0].files[0];
     const reader = new FileReader();
     reader.addEventListener('load', () => {
+      $('#originalImg').cropper('destroy');
       this.setState({ originalImgDataUrl: reader.result, file: file });
     }, false);
     if (file) {
@@ -118,7 +127,7 @@ class MainBody extends React.Component {
     const context = canvas.getContext('2d');
     context.globalCompositeOperation = 'source-over';
     const image = new Image();
-    image.src = $('#originalImg').prop('src');
+    image.src = $('#originalImg').cropper('getCroppedCanvas').toDataURL();
     image.onload = () => {
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
       const backgroundImg = new Image();
