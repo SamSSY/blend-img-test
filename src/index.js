@@ -73,6 +73,7 @@ class MainBody extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log('componentDidUpdate');
     $('img').on('load', () => {
       console.log('img uploaded.');
       const imgWH = $('#originalImg').css(['width', 'height']);
@@ -112,6 +113,7 @@ class MainBody extends React.Component {
     const file = $('input[type=file]')[0].files[0];
     const reader = new FileReader();
     reader.addEventListener('load', () => {
+      $('#originalImg').cropper('destroy');
       this.setState({ originalImgDataUrl: reader.result, file: file });
     }, false);
     if (file) {
