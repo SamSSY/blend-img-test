@@ -83,25 +83,35 @@ class MainBody extends React.Component {
       const h = parseInt(imgWH.height, 10);
       if (w > h && w > 350) {
         console.log('width > 350px');
+        // $('#originalImg').css({ 'height': '350px' });
         $('#originalImg').css({ 'width': '350px' });
       } else if (w < h && h > 350) {
         console.log('height > 350px');
+        //  $('#originalImg').css({ 'width': '350px' });
         $('#originalImg').css({ 'height': '350px' });
       }
       $('#originalImg').cropper({
         viewMode: 1,
         dragMode: 'move',
-        autoCropArea: 0.65,
+        // autoCropArea: 1,
+        aspectRatio: 1,
         restore: false,
         guides: false,
         highlight: false,
         cropBoxMovable: false,
-        cropBoxResizable: false
+        cropBoxResizable: false,
+        minCropBoxWidth: 350,
+        minCropBoxHeight: 350,
+        minContainerWidth: 350,
+        minContainerHeight: 350,
+        minCanvasHeight: 350,
+        minCanvasWidth: 350,
       });
     });
   }
 
   handleImgUpload() {
+    console.log('handleImgUpload called.');
     const file = $('input[type=file]')[0].files[0];
     const reader = new FileReader();
     reader.addEventListener('load', () => {
