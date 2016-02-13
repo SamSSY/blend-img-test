@@ -101,8 +101,8 @@ class MainBody extends React.Component {
         minCropBoxHeight: 300,
         minContainerWidth: 350,
         minContainerHeight: 350,
-        minCanvasHeight: 350,
-        minCanvasWidth: 350,
+        minCanvasHeight: 300,
+        minCanvasWidth: 300,
       });
     });
   }
@@ -125,7 +125,6 @@ class MainBody extends React.Component {
     const context = canvas.getContext('2d');
     context.globalCompositeOperation = 'source-over';
     const image = new Image();
-    // image.src = $('#originalImg').prop('src');
     image.src = $('#originalImg').cropper('getCroppedCanvas').toDataURL();
     image.onload = () => {
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
