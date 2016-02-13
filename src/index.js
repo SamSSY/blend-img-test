@@ -83,25 +83,22 @@ class MainBody extends React.Component {
       const h = parseInt(imgWH.height, 10);
       if (w > h && w > 350) {
         console.log('width > 350px');
-        // $('#originalImg').css({ 'height': '350px' });
         $('#originalImg').css({ 'width': '350px' });
-      } else if (w < h && h > 350) {
+      } else if (w <= h && h > 350) {
         console.log('height > 350px');
-        //  $('#originalImg').css({ 'width': '350px' });
         $('#originalImg').css({ 'height': '350px' });
       }
       $('#originalImg').cropper({
         viewMode: 1,
         dragMode: 'move',
-        // autoCropArea: 1,
         aspectRatio: 1,
         restore: false,
         guides: false,
         highlight: false,
         cropBoxMovable: false,
         cropBoxResizable: false,
-        minCropBoxWidth: 350,
-        minCropBoxHeight: 350,
+        minCropBoxWidth: 300,
+        minCropBoxHeight: 300,
         minContainerWidth: 350,
         minContainerHeight: 350,
         minCanvasHeight: 350,
@@ -128,7 +125,8 @@ class MainBody extends React.Component {
     const context = canvas.getContext('2d');
     context.globalCompositeOperation = 'source-over';
     const image = new Image();
-    image.src = $('#originalImg').prop('src');
+    // image.src = $('#originalImg').prop('src');
+    image.src = $('#originalImg').cropper('getCroppedCanvas').toDataURL();
     image.onload = () => {
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
       const backgroundImg = new Image();
