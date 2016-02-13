@@ -110,22 +110,24 @@ class MainBody extends React.Component {
   }
 
   synthesizeImg() {
-    const canvas = document.getElementById('resultImg');
-    const context = canvas.getContext('2d');
-    context.globalCompositeOperation = 'source-over';
-    const image = new Image();
-    image.src = $('#originalImg').cropper('getCroppedCanvas').toDataURL();
-    image.onload = () => {
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const backgroundImg = new Image();
-      backgroundImg.src = $('#backgroundImg').prop('src');
-      backgroundImg.onload = () => {
-        context.globalCompositeOperation = 'source-over';
-        context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
-        this.setState({ isImgComplete: true });
-        $('#backgroundImg').hide();
+    if (this.state.file) {
+      const canvas = document.getElementById('resultImg');
+      const context = canvas.getContext('2d');
+      context.globalCompositeOperation = 'source-over';
+      const image = new Image();
+      image.src = $('#originalImg').cropper('getCroppedCanvas').toDataURL();
+      image.onload = () => {
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const backgroundImg = new Image();
+        backgroundImg.src = $('#backgroundImg').prop('src');
+        backgroundImg.onload = () => {
+          context.globalCompositeOperation = 'source-over';
+          context.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+          this.setState({ isImgComplete: true });
+          $('#backgroundImg').hide();
+        };
       };
-    };
+    }
   }
 
   downloadCanvas() {
