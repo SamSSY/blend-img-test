@@ -110,8 +110,8 @@ class MainBody extends React.Component {
 
   handleImgUpload() {
     console.log('handleImgUpload called.');
-    const file = $('input[type=file]')[0].files[0];
-    const reader = new FileReader();
+    let file = $('input[type=file]')[0].files[0];
+    let reader = new FileReader();
     reader.addEventListener('load', () => {
       $('#originalImg').cropper('destroy');
       this.setState({ originalImgDataUrl: reader.result, file: file });
