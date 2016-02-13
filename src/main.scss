@@ -6,7 +6,12 @@ html, body{
 
 #root{
 	height:100%;
-
+	
+	#resultImg{
+		height: 350px;
+		width: 350px;
+	}
+	
 	.footer{
 	    bottom: 0;
 	    display: block;

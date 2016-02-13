@@ -167,7 +167,7 @@ class MainBody extends React.Component {
           </div>
           <div style={resultzoneStyles} >
             <canvas id="resultImg" style={{ display: isImgComplete ? 'inline' : 'none' }}
-              width="350" height="350"
+              width="700" height="700"
             >
             </canvas>
             <img id="backgroundImg"
